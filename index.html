@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ezra Solomon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #ff2d78;
+      --pink-dim: #c4195a;
+      --pink-glow: rgba(255, 45, 120, 0.25);
+      --blue: #00f0ff;
+      --blue-dim: #00a8b5;
+      --blue-glow: rgba(0, 240, 255, 0.2);
+      --purple: #b500ff;
+      --purple-glow: rgba(181, 0, 255, 0.2);
+      --bg: #06060f;
+      --bg2: #0d0d1e;
+      --bg3: #12122a;
+      --text: #e8e8f8;
+      --text-dim: #8888aa;
+      --mono: 'Share Tech Mono', monospace;
+      --display: 'Orbitron', sans-serif;
+      --body: 'Rajdhani', sans-serif;
+      --grid-size: 40px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* === GRID BACKGROUND === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+      background-size: var(--grid-size) var(--grid-size);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === SCANLINES === */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === NAV === */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      height: 60px;
+      background: rgba(6, 6, 15, 0.85);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::before {
+      content: '> ';
+      color: var(--pink);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::before { opacity: 1; }
+
+    /* === MAIN LAYOUT === */
+    main { position: relative; z-index: 1; }
+
+    section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+      padding-bottom: 4rem;
+      max-width: 900px;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--pink);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 1px;
+      background: var(--pink);
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      margin-bottom: 0.4rem;
+    }
+
+    h1 .line-blue { color: var(--blue); }
+    h1 .line-pink { color: var(--pink); }
+
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-top: 1.8rem;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+      line-height: 1.8;
+    }
+
+    .hero-subtitle span { color: var(--blue); }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 28px;
+      border: 1px solid;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      border-color: var(--pink);
+      color: var(--pink);
+      background: transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--pink);
+      color: #000;
+      box-shadow: 0 0 28px var(--pink-glow);
+    }
+
+    .btn-secondary {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: transparent;
+    }
+
+    .btn-secondary:hover {
+      background: var(--blue);
+      color: #000;
+      box-shadow: 0 0 28px var(--blue-glow);
+    }
+
+    /* === SECTION HEADERS === */
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--pink);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,45,120,0.4), transparent);
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 1px;
+    }
+
+    /* === ABOUT / RESUME === */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      margin-bottom: 2.5rem;
+    }
+
+    .about-cell {
+      background: var(--bg2);
+      padding: 1.8rem;
+    }
+
+    .about-cell-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--pink);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .about-cell p {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .about-cell strong { color: var(--blue); font-weight: 600; }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: 1px solid rgba(255, 45, 120, 0.3);
+      padding-left: 2rem;
+      margin-left: 0.5rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      background: var(--pink);
+      transform: rotate(45deg);
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 2px;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-role {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-company {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--pink);
+      margin-bottom: 0.6rem;
+    }
+
+    .timeline-desc {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2rem;
+    }
+
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      color: var(--blue);
+      background: rgba(0, 240, 255, 0.04);
+    }
+
+    /* === BLOG === */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: rgba(255, 45, 120, 0.08);
+    }
+
+    .card {
+      background: var(--bg2);
+      padding: 1.8rem;
+      text-decoration: none;
+      display: block;
+      transition: background 0.2s;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--pink), var(--blue));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .card:hover { background: var(--bg3); border-color: rgba(0, 240, 255, 0.12); }
+    .card:hover::before { transform: scaleX(1); }
+
+    .card-eyebrow {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--pink);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+
+    .card-title {
+      font-family: var(--display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.7rem;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 1px;
+    }
+
+    /* === PODCASTS === */
+    .podcast-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: rgba(0, 240, 255, 0.06);
+    }
+
+    .podcast-item {
+      background: var(--bg2);
+      padding: 1.8rem 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .podcast-item:hover { background: var(--bg3); }
+
+    .podcast-num {
+      font-family: var(--display);
+      font-size: 28px;
+      font-weight: 900;
+      color: rgba(255, 45, 120, 0.2);
+      min-width: 48px;
+      line-height: 1;
+      padding-top: 4px;
+    }
+
+    .podcast-info { flex: 1; }
+
+    .podcast-show {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--blue);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .podcast-title {
+      font-family: var(--display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .podcast-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .podcast-arrow {
+      font-size: 18px;
+      color: var(--pink);
+      padding-top: 4px;
+      transition: transform 0.2s;
+    }
+
+    .podcast-item:hover .podcast-arrow { transform: translateX(4px); }
+
+    /* === CONTACT / SOCIAL === */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(181, 0, 255, 0.08);
+      margin-bottom: 3rem;
+    }
+
+    .social-card {
+      background: var(--bg2);
+      padding: 1.6rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: background 0.2s;
+    }
+
+    .social-card:hover { background: var(--bg3); }
+
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255, 45, 120, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--pink);
+      flex-shrink: 0;
+    }
+
+    .social-name {
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .social-handle {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .contact-line {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-dim);
+      padding: 1.2rem 1.6rem;
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .contact-line a { color: var(--blue); text-decoration: none; }
+    .contact-line a:hover { color: var(--pink); }
+
+    .contact-prompt { color: var(--pink); margin-right: 4px; }
+
+    /* === DIVIDER === */
+    .divider {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,45,120,0.3), rgba(0,240,255,0.3), transparent);
+    }
+
+    /* === FOOTER === */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      border-top: 1px solid rgba(0, 240, 255, 0.07);
+      letter-spacing: 2px;
+    }
+
+    footer span { color: var(--pink); }
+
+    /* === CURSOR BLINK === */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 0.85em;
+      background: var(--blue);
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blink 1.1s step-end infinite;
+    }
+
+    /* === GLITCH on heading === */
+    @keyframes glitch1 {
+      0%,90%,100%{clip-path:inset(0 0 100% 0);transform:translate(0)}
+      92%{clip-path:inset(30% 0 50% 0);transform:translate(-4px)}
+      94%{clip-path:inset(70% 0 10% 0);transform:translate(4px)}
+      96%{clip-path:inset(10% 0 80% 0);transform:translate(-2px)}
+    }
+
+    .glitch-wrap { position: relative; display: inline-block; }
+    .glitch-wrap::before, .glitch-wrap::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+    .glitch-wrap::before {
+      color: var(--pink);
+      animation: glitch1 6s infinite;
+    }
+    .glitch-wrap::after {
+      color: var(--blue);
+      animation: glitch1 6s infinite 0.3s;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">esolo.xyz</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#blog">Writing</a></li>
+    <li><a href="#podcasts">Media</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <h1>
+      <div class="glitch-wrap" data-text="EZRA">EZRA</div><br/>
+      <span class="line-blue">SOLOMON</span>
+    </h1>
+    <div class="hero-cta">
+      <a href="#about" class="btn btn-primary">View Resume</a>
+      <a href="/cdn-cgi/l/email-protection#52372820331237213d3e3d7c2a2b28" class="btn btn-secondary">Get in Touch</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT / RESUME -->
+  <section id="about">
+    <div class="section-header">
+      <div class="section-tag">01 // About</div>
+      <h2>Resume</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-cell">
+        <div class="about-cell-label">Current Role</div>
+        <p><strong><a href="https://tempo.xyz" target="_blank" style="color:var(--blue);text-decoration:none;">Tempo</a></strong><br/><span style="color:var(--pink);font-size:13px;letter-spacing:1px;font-family:var(--mono);">GTM</span><br/><span style="font-size:13px;">Tempo is a purpose-built, Layer 1 blockchain for payments, developed in partnership with leading fintechs and Fortune 500s.</span></p>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">Previously</div>
+        <p><strong><a href="https://fireblocks.com" target="_blank" style="color:var(--blue);text-decoration:none;">Fireblocks</a></strong><br/><span style="color:var(--pink);font-size:13px;letter-spacing:1px;font-family:var(--mono);">Strategy Lead, Blockchain &amp; DeFi</span><br/><span style="font-size:13px;">The world's most trusted digital asset and stablecoin infrastructure company, empowering organizations to build, manage and grow on the blockchain.</span></p>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">Focus Areas</div>
+        <p>Validator economics · Restaking · Institutional custody · Stablecoin payments</p>
+      </div>
+      <div class="about-cell">
+        <div class="about-cell-label">Location</div>
+        <p>New York, NY<br/>Eastern Time (ET)</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2026 — PRESENT</div>
+        <div class="timeline-role">GTM</div>
+        <div class="timeline-company">// <a href="https://tempo.xyz" target="_blank" style="color:var(--pink);text-decoration:none;">Tempo</a></div>
+        <div class="timeline-desc">Tempo is a purpose-built, Layer 1 blockchain for payments, developed in partnership with leading fintechs and Fortune 500s. Tempo enables high-throughput, low-cost global transactions for any use case.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2024 — 2026</div>
+        <div class="timeline-role">Strategy Lead, Blockchain &amp; DeFi</div>
+        <div class="timeline-company">// <a href="https://fireblocks.com" target="_blank" style="color:var(--pink);text-decoration:none;">Fireblocks</a></div>
+        <div class="timeline-desc">Fireblocks is the world's most trusted digital asset and stablecoin infrastructure company, empowering organizations of all sizes to build, manage and grow their business on the blockchain.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2022 — 2023</div>
+        <div class="timeline-role">Sales Director</div>
+        <div class="timeline-company">// <a href="https://fireblocks.com" target="_blank" style="color:var(--pink);text-decoration:none;">Fireblocks</a></div>
+        <div class="timeline-desc">Fireblocks is the world's most trusted digital asset and stablecoin infrastructure company, empowering organizations of all sizes to build, manage and grow their business on the blockchain.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2020 — 2022</div>
+        <div class="timeline-role">Business Development</div>
+        <div class="timeline-company">// <a href="https://digitalasset.com" target="_blank" style="color:var(--pink);text-decoration:none;">Digital Asset</a></div>
+        <div class="timeline-desc">Digital Asset is the creator of the Canton Network, and a founding member of the Canton Foundation.</div>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+      <span class="skill-tag">BD &amp; Partnerships</span>
+      <span class="skill-tag">Go-to-Market</span>
+      <span class="skill-tag">Stablecoin Payments</span>
+      <span class="skill-tag">Agentic Payments</span>
+      <span class="skill-tag">Staking</span>
+      <span class="skill-tag">DeFi</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="section-header">
+      <div class="section-tag">02 // Writing</div>
+      <h2>Blog Posts</h2>
+    </div>
+
+    <div class="card-grid">
+      <a href="https://www.fireblocks.com/blog/ethereum-etf-staking-should-investors-buy-spot-or-etf" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">Ethereum ETF & Staking: Should Investors Buy Spot or ETF?</div>
+        <div class="card-desc">A breakdown of the tradeoffs between holding spot ETH with staking rewards vs. investing through an ETF structure.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+      <a href="https://www.fireblocks.com/blog/what-is-berachain-and-proof-of-liquidity" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">What is Berachain and Proof of Liquidity?</div>
+        <div class="card-desc">An explainer on Berachain's novel Proof of Liquidity consensus mechanism and what it means for institutional DeFi.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+      <a href="https://www.fireblocks.com/blog/why-high-performance-evm-matters-explore-monad-on-fireblocks" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">Why High-Performance EVM Matters: Explore Monad on Fireblocks</div>
+        <div class="card-desc">How Monad's parallel EVM execution changes the calculus for institutional builders — and how Fireblocks plugs in.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+      <a href="https://www.fireblocks.com/blog/fireblocks-unlocks-liquid-eth-staking-for-2000-institutions-via-liquid-collective" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">Fireblocks Unlocks Liquid ETH Staking for 2,000+ Institutions via Liquid Collective</div>
+        <div class="card-desc">Announcing the integration that brings enterprise-grade liquid staking to the entire Fireblocks institutional network.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+      <a href="https://www.fireblocks.com/blog/fireblocks-x-lido-institutional-bringing-liquid-staking-to-the-fireblocks-network" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">Fireblocks x Lido Institutional: Bringing Liquid Staking to the Fireblocks Network</div>
+        <div class="card-desc">How the Lido Institutional integration opens up liquid staking at scale for Fireblocks' 2,000+ institutional clients.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+      <a href="https://www.fireblocks.com/blog/fireblocks-deepens-collaboration-with-the-ton-foundation-introducing-support-for-jettons-and-200k-grant-program" class="card" target="_blank">
+        <div class="card-eyebrow">Fireblocks Blog</div>
+        <div class="card-title">Fireblocks Deepens Collaboration With the TON Foundation: Jettons & $200k Grant Program</div>
+        <div class="card-desc">Expanding TON ecosystem support with Jetton integration and a $200k grant program for developers building on TON.</div>
+        <div class="card-link">Read article →</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PODCASTS -->
+  <section id="podcasts">
+    <div class="section-header">
+      <div class="section-tag">03 // Media</div>
+      <h2>Podcasts &amp; Appearances</h2>
+    </div>
+
+    <div class="podcast-list">
+      <a href="https://www.youtube.com/watch?v=O7HDLkYVMhU" class="podcast-item" target="_blank">
+        <div class="podcast-num">01</div>
+        <div class="podcast-info">
+          <div class="podcast-show">Thinking Crypto</div>
+          <div class="podcast-title">Building Crypto & Stablecoin Infrastructure for Huge Institutions!</div>
+          <div class="podcast-desc">Watch on YouTube →</div>
+        </div>
+        <div class="podcast-arrow">→</div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=hesm-wErNoY" class="podcast-item" target="_blank">
+        <div class="podcast-num">02</div>
+        <div class="podcast-info">
+          <div class="podcast-show">Blockchain North</div>
+          <div class="podcast-title">Why Stablecoins and Global Payments Are Crypto's Killer App</div>
+          <div class="podcast-desc">Watch on YouTube →</div>
+        </div>
+        <div class="podcast-arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <div class="section-tag">04 // Connect</div>
+      <h2>Social &amp; Contact</h2>
+    </div>
+
+    <div class="social-grid">
+      <a href="https://www.linkedin.com/in/ezra-solomon/" class="social-card" target="_blank">
+        <div class="social-icon">LI</div>
+        <div>
+          <div class="social-name">LinkedIn</div>
+          <div class="social-handle">/in/ezra-solomon</div>
+        </div>
+      </a>
+      <a href="https://x.com/ezrasolo" class="social-card" target="_blank">
+        <div class="social-icon">X</div>
+        <div>
+          <div class="social-name">Twitter / X</div>
+          <div class="social-handle">@ezrasolo</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="contact-line">
+      <span class="contact-prompt">$</span>
+      <span>reach me at: <a href="mailto:ezra@esolo.xyz">ezra@esolo.xyz</a></span>
+    </d
