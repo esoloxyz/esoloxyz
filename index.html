@@ -282,12 +282,12 @@
     .podcast-arrow { font-size: 18px; color: var(--pink); padding-top: 4px; transition: transform 0.2s; }
     .podcast-item:hover .podcast-arrow { transform: translateX(4px); }
     .social-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      display: flex;
       gap: 1px;
       background: rgba(181, 0, 255, 0.08);
       margin-bottom: 3rem;
     }
+    .social-card { flex: 1; }
     .social-card { background: var(--bg2); padding: 1.6rem; text-decoration: none; display: flex; align-items: center; gap: 1rem; transition: background 0.2s; }
     .social-card:hover { background: var(--bg3); }
     .social-icon { width: 36px; height: 36px; border: 1px solid rgba(255, 45, 120, 0.3); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--pink); flex-shrink: 0; }
@@ -317,8 +317,18 @@
       .nav-links { gap: 1.2rem; }
       section { padding: 4rem 1.2rem; }
       .about-grid { grid-template-columns: 1fr; }
-      #hero { flex-direction: column; align-items: flex-start; gap: 2rem; }
-      .headshot-img { width: 160px; height: 160px; }
+      #hero {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        padding-top: 80px;
+        text-align: center;
+        min-height: 100vh;
+      }
+      .hero-text { display: flex; flex-direction: column; align-items: center; }
+      .hero-cta { justify-content: center; }
+      .headshot-img { width: 140px; height: 140px; }
     }
   </style>
 </head>
@@ -345,7 +355,7 @@
       </h1>
       <div class="hero-cta">
         <a href="#about" class="btn btn-primary">View Resume</a>
-        <a href="mailto:ezra@esolo.xyz" class="btn btn-secondary">Get in Touch</a>
+        <a href="/cdn-cgi/l/email-protection#6e0b141c0f2e0b1d01020140161714" class="btn btn-secondary">Get in Touch</a>
       </div>
     </div>
     <div class="headshot-wrap">
@@ -514,15 +524,5 @@
     </div>
     <div class="contact-line">
       <span class="contact-prompt">$</span>
-      <span>reach me at: <a href="mailto:ezra@esolo.xyz">ezra@esolo.xyz</a></span>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <span>EZRA SOLOMON</span> &nbsp;·&nbsp; BUILT WITH RAW HTML &nbsp;·&nbsp; <span>© 2026</span>
-</footer>
-
-</body>
-</html>
+      <span>reach me at: <a href="/cdn-cgi/l/email-protection#c7a2bdb5a687a2b4a8aba8e9bfbebd"><span class="__cf_email__" data-cfemail="56332c2437163325393a39782e2f2c">[email&#160;protected]</span></a></span>
+    </d
